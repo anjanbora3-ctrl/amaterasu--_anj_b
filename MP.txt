@@ -1,0 +1,66 @@
+Build a complete DevSecOps Security Analyzer project with the following requirements:
+
+1. CI/CD Pipeline:
+- Use GitHub Actions
+- Trigger on push to main branch
+- Include steps to:
+  - Checkout code
+  - Setup Python and Node.js
+  - Install dependencies
+  - Run security tools
+
+2. Security Tools Integration:
+- Snyk for dependency vulnerability scanning using package.json
+- Gitleaks for secret detection using a .env file
+- Checkov for Terraform security analysis using main.tf
+
+3. Dataset Analysis:
+- Use a provided Excel dataset file named: "devsecops_pipeline_security_dataset (2).xlsx" in this current directory, containing repository security information
+- Build a Python script named "devsecops_analyzer_pro.py" that:
+  - Loads the dataset using pandas
+  - Analyzes vulnerability severity (High, Medium, Low)
+  - Detects public exposure risks
+  - Calculates a risk score:
+      High = 5, Medium = 3, Low = 1, Public Exposure = +5
+  - Classifies risk levels (High, Medium, Low)
+  - Identifies top risky repositories
+  - Detects anomalies (high risk + exposed)
+  - Generates output reports (CSV)
+  - Creates visual charts using matplotlib
+
+4. Project Files:
+- package.json with solved dependencies
+- .env file if necessary for the project
+- main.tf to implement this project
+- Python scripts for analysis and visualization
+- GitHub Actions YAML file
+- README.md explaining the project
+
+5. Output:
+- Generate:
+  - Risk analysis CSV report
+  - Top risky repositories CSV
+  - Vulnerability distribution chart
+  - Risk chart
+
+6. Security Simulation:
+- Demonstrate detection of:
+  - Vulnerable dependencies
+  - Hardcoded secrets
+  - Misconfigured infrastructure
+
+7. Remediation:
+- Provide details how to fix, if needed, if user wants fix the system.
+ 
+8. Documentation:
+- Create a professional README.md explaining:
+  - Architecture
+  - Tools used
+  - Workflow
+  - Results
+  - Security concepts
+
+9. Make the project:
+- Beginner-friendly but professional
+- Suitable for academic submission
+- Demonstrating real-world DevSecOps practices

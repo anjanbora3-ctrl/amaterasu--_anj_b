@@ -1,0 +1,69 @@
+name: DevSecOps Security Analyzer Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  security-scan:
+    name: Security Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Python Dependencies
+        run: |
+          pip install pandas matplotlib openpyxl
+
+      - name: Install Security Tools
+        run: |
+          npm install -g snyk
+          pip install checkov
+          # Gitleaks can be run via docker or pre-built binary, for this demo we'll use a placeholder or the official action
+
+      - name: Run Snyk Dependency Scan
+        run: |
+          # Note: SNYK_TOKEN is required for actual usage.
+          # snyk auth ${{ secrets.SNYK_TOKEN }}
+          # snyk test --json > snyk-report.json || true
+          echo "Running Snyk Scan (Demo Mode)..."
+          snyk --version
+
+      - name: Run Checkov Infrastructure Scan
+        run: |
+          checkov -f main.tf --quiet || true
+
+      - name: Run Gitleaks Secret Scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+      - name: Run Python Security Analyzer
+        run: |
+          python devsecops_analyzer_pro.py
+
+      - name: Archive Reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: security-reports
+          path: |
+            risk_analysis_report.csv
+            top_risky_repositories.csv
+            vulnerability_distribution.png
+            risk_level_chart.png
+            top_risky_repos.png
